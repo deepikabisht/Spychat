@@ -2,19 +2,46 @@ from spy_details import spy_name,spy_salutation,spy_age,spy_rating
 
 print 'Let\'s get started'
 
+STATUS_MESSAGES=["Busy","At work"]
 response= raw_input("Do you  want to continue as "+spy_salutation+" "+spy_name+ " (Y/N)?")
+
 
 def start_chat(spy_name,spy_age,spy_rating):
     show_menu=True
-    while show_menu:
-        menu_choices= "What do you want to do ? \n 1. Add a status update\n"
-        menu_choice= raw_input(menu_choices)
+    current_status_message = None
+    while show_menu==True:
+        menu_choices= "What do you want to do ? \n 1. Add a status update\n 2. Closing Application"
+        menu_choice= int(raw_input(menu_choices))
         if menu_choice==1:
-            print "Status update function called"
+           current_status_message= add_status(current_status_message)
         else:
             show_menu=False
+    print "Thank you for using spychat"
 
-if response==Y:
+def add_status(current_status_message):
+    if current_status_message != None:
+        print "Your Current status message is " + current_status_message + "\n"
+    else:
+        print "You  don't have any current status message"
+    default= raw_input("Do you want to select from older status?(y/n)")
+    if default.upper()== "N":
+        new_status_message= raw_input("What status message you want to set?")
+        if len(new_status_message)>0:
+            updated_status_message=new_status_message
+            STATUS_MESSAGES.append(updated_status_message)
+    elif default.upper()== "Y":
+        item_position=1
+        for message in STATUS_MESSAGES:
+            print str(item_position)+" "+message
+            item_position=item_position+1
+        message_selection= int(raw_input("\nChoose from the above staus messages"))
+        if len(STATUS_MESSAGES)>= message_selection:
+            updated_status_message=STATUS_MESSAGES[message_selection-1]
+    return updated_status_message
+
+
+
+if response.upper()=="Y":
     print "App has started"
     start_chat(spy_name,spy_age,spy_rating)
 else:
