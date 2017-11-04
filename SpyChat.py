@@ -3,6 +3,7 @@ from spy_details import spy
 print 'Let\'s get started'
 
 STATUS_MESSAGES=["Busy","At work"]
+friends=[]
 response= raw_input("Do you  want to continue as "+spy['salutation']+" "+spy['name']+ " (Y/N)?")
 
 
@@ -10,10 +11,13 @@ def start_chat(spy):
     show_menu=True
     current_status_message = None
     while show_menu==True:
-        menu_choices= "What do you want to do ? \n 1. Add a status update\n 2. Closing Application"
+        menu_choices= "What do you want to do ? \n 1. Add a status update\n 2. Adding a friend\n3. Closing Application"
         menu_choice= int(raw_input(menu_choices))
         if menu_choice==1:
            current_status_message= add_status(current_status_message)
+        elif menu_choice==2:
+            number_of_friends=add_friend()
+            print "You have % friends" %(number_of_friends)
         else:
             show_menu=False
     print "Thank you for using spychat"
@@ -39,6 +43,29 @@ def add_status(current_status_message):
             updated_status_message=STATUS_MESSAGES[message_selection-1]
     return updated_status_message
 
+def add_friend():
+    new_friend={
+        'name':'',
+        'salutation':'',
+        'age':0,
+        'rating':0.0
+
+    }
+    new_friend['name'] = raw_input("Please add your friend's name: ")
+    new_friend['salutation'] = raw_input("Are they Mr. or Ms.?: ")
+
+    new_friend['name'] = new_friend['salutation'] + " " + new_friend['name']
+
+    new_friend['age'] = int(raw_input("Age?"))
+
+    new_friend['rating'] = float(raw_input("Spy rating?"))
+    if len(new_friend['name']) > 0 and new_friend['age'] > 12 and new_friend['rating'] >= spy['rating']:
+        friends.append(new_friend)
+        print 'Friend Added!'
+    else:
+        print 'Sorry! Invalid entry. We can\'t add spy with the details you provided'
+
+    return len(friends)
 
 
 if response.upper()=="Y":
