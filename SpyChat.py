@@ -1,4 +1,5 @@
 from spy_details import spy
+from steganography.steganography import Steganography
 
 print 'Let\'s get started'
 
@@ -11,13 +12,16 @@ def start_chat(spy):
     show_menu=True
     current_status_message = None
     while show_menu==True:
-        menu_choices= "What do you want to do ? \n 1. Add a status update\n 2. Adding a friend\n3. Closing Application"
+        menu_choices= "What do you want to do ? \n 1. Add a status update\n 2. Add a friend\n3. Closing Application"
         menu_choice= int(raw_input(menu_choices))
         if menu_choice==1:
            current_status_message= add_status(current_status_message)
         elif menu_choice==2:
             number_of_friends=add_friend()
             print "You have % friends" %(number_of_friends)
+        elif menu_choice==3:
+            n=select_friend()
+            print n
         else:
             show_menu=False
     print "Thank you for using spychat"
@@ -61,11 +65,35 @@ def add_friend():
     new_friend['rating'] = float(raw_input("Spy rating?"))
     if len(new_friend['name']) > 0 and new_friend['age'] > 12 and new_friend['rating'] >= spy['rating']:
         friends.append(new_friend)
+        print friends
         print 'Friend Added!'
     else:
         print 'Sorry! Invalid entry. We can\'t add spy with the details you provided'
 
     return len(friends)
+
+def select_friend():
+  item_number = 0
+
+  for friend in friends:
+    print '%d %s' % ((item_number + 1), friend['name'])
+
+    item_number = item_number + 1
+
+  friend_choice = input("Choose from your friends")
+  friend_choice_position=friend_choice-1
+  return friend_choice_position
+
+def send_message():
+    friend_choice= select_friend()
+    original_image = input("What is the name of the image?")
+    output_path = 'output.jpg'
+    text = input("What do you want to say?")
+    Steganography.encode(original_image, output_path, text)
+
+
+
+
 
 
 if response.upper()=="Y":
