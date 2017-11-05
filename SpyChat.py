@@ -92,7 +92,10 @@ def send_message():
     Steganography.encode(original_image, output_path, text)
 
 
-
+def read_message():
+    sender = select_friend()
+    output_path = input("What is the name of the file?")
+    secret_text = Steganography.decode(output_path)
 
 
 
