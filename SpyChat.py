@@ -1,5 +1,6 @@
 from spy_details import spy
 from steganography.steganography import Steganography
+from datetime import datetime
 
 print 'Let\'s get started'
 
@@ -52,7 +53,8 @@ def add_friend():
         'name':'',
         'salutation':'',
         'age':0,
-        'rating':0.0
+        'rating':0.0,
+        'chats':[]
 
     }
     new_friend['name'] = raw_input("Please add your friend's name: ")
@@ -86,17 +88,30 @@ def select_friend():
 
 def send_message():
     friend_choice= select_friend()
-    original_image = input("What is the name of the image?")
+    original_image = raw_input("What is the name of the image?")
     output_path = 'output.jpg'
-    text = input("What do you want to say?")
+    text = raw_input("What do you want to say?")
     Steganography.encode(original_image, output_path, text)
+    new_chat={
+        "message":text,
+        "time":datetime.now(),
+        "sent_by_me":True
+    }
+    friends[friend_choice]['chats'].append(new_chat)
+    print "Your secret message is ready"
 
 
 def read_message():
     sender = select_friend()
     output_path = input("What is the name of the file?")
     secret_text = Steganography.decode(output_path)
-
+    new_chat = {
+        "message": secret_text,
+        "time": datetime.now(),
+        "sent_by_me": False
+    }
+    friends[sender]['chats'].append(new_chat)
+    print "Your secret message has been saved"
 
 
 if response.upper()=="Y":
