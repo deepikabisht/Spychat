@@ -1,7 +1,16 @@
-spy = {
-  'name': 'Deepika',
-  'salutation': 'Ms.',
-  'age': 21,
-  'rating': 4.7,
-  'is_online': True
-}
+class Spy:
+    def __init__(self, name, salutation, age, rating):
+        self.name = name
+        self.salutation = salutation
+        self.age = age
+        self.rating = rating
+        self.is_online = True
+        self.chats = []
+        self.current_status_message = None
+
+spy= Spy("Deepika","Ms.",21,5)
+friend_one = Spy('Raja', 'Mr.', 27, 4.9)
+friend_two = Spy('Mata Hari', 'Ms.', 21, 4.39)
+friend_three = Spy('No', 'Dr.', 37, 4.95)
+
+friends = [friend_one, friend_two, friend_three]
