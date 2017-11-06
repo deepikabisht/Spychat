@@ -1,6 +1,7 @@
 from spy_details import spy,friends,Spy,ChatMessage
 from steganography.steganography import Steganography
 from datetime import datetime
+import csv
 
 print 'Let\'s get started'
 
@@ -9,7 +10,17 @@ STATUS_MESSAGES=["Busy","At work"]
 response= raw_input("Do you  want to continue as "+spy.salutation+" "+spy.name+ " (Y/N)?")
 
 
+def load_friends():
+    with open('friend.csv', 'rb') as friends_data:
+        reader = csv.reader(friends_data)
+
+        for row in reader:
+            spy = Spy(row[0], row[1], row[2], row[3])
+            friends.append(spy)
+
+
 def start_chat(spy):
+    load_friends()
     show_menu=True
     current_status_message = None
     while show_menu==True:
@@ -64,6 +75,11 @@ def add_friend():
     if len(Spy.name) > 0 and Spy.age > 12 and Spy.rating >= spy.rating:
         friends.append(Spy)
         print 'Friend Added!'
+
+        with open('friend.csv', 'wb') as friends_data:
+            writer = csv.writer(friends_data)
+            writer.writerow([Spy.name,Spy.salutation,Spy.age,Spy.rating])
+
     else:
         print 'Sorry! Invalid entry. We can\'t add spy with the details you provided'
 
