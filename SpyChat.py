@@ -1,4 +1,4 @@
-from spy_details import spy,friends,Spy,ChatMessage
+from spy_details import spy,friends,Spy,ChatMessage,chats
 from steganography.steganography import Steganography
 from datetime import datetime
 import csv
@@ -11,16 +11,24 @@ response= raw_input("Do you  want to continue as "+spy.salutation+" "+spy.name+ 
 
 
 def load_friends():
-    with open('friend.csv', 'rb') as friends_data:
+    with open('friends.csv', 'rb') as friends_data:
         reader = csv.reader(friends_data)
 
         for row in reader:
             spy = Spy(row[0], row[1], row[2], row[3])
             friends.append(spy)
+def load_chats():
+    with open('chats.csv', 'rb') as chats_data:
+        reader = csv.reader(chats_data)
+
+        for row in reader:
+            chat = ChatMessage(row[0], row[1])
+            chats.append(spy)
 
 
 def start_chat(spy):
     load_friends()
+    load_chats()
     show_menu=True
     current_status_message = None
     while show_menu==True:
@@ -76,7 +84,7 @@ def add_friend():
         friends.append(Spy)
         print 'Friend Added!'
 
-        with open('friend.csv', 'wb') as friends_data:
+        with open('friends.csv', 'ab') as friends_data:
             writer = csv.writer(friends_data)
             writer.writerow([Spy.name,Spy.salutation,Spy.age,Spy.rating])
 
@@ -111,6 +119,9 @@ def send_message():
     if text=="SAVE ME"or text=="SOS":
         print "I am in danger. Please help me out ASAP"
     print "Your secret message is ready"
+    with open('chats.csv', 'ab') as chats_data:
+        writer = csv.writer(chats_data)
+        writer.writerow([ch.message,ch.time])
 
 
 def read_message():
