@@ -80,8 +80,6 @@ def select_friend():
   friend_choice = input("Choose from your friends")
   friend_choice_position=friend_choice-1
   f = friends[friend_choice_position]
-  #print f
-  #return friend_choice_position
   return  f
 
 
@@ -94,6 +92,8 @@ def send_message():
     Steganography.encode(original_image, output_path, text)
     ch=ChatMessage(text,True)
     (friend_choice.chats).append(ch)
+    if text=="SAVE ME"or text=="SOS":
+        print "I am in danger. Please help me out ASAP"
     print "Your secret message is ready"
 
 
@@ -102,6 +102,8 @@ def read_message():
     output_path = raw_input("What is the name of the file?")
     output_path= "C:\Users\user\Desktop\Test1\%s"%(output_path)
     secret_text = Steganography.decode(output_path)
+    if secret_text=="SAVE ME"or secret_text=="SOS":
+        print "Your friend is in danger. Please help your friend"
     c= ChatMessage(secret_text,False)
     (sender.chats).append(c)
     print "Your secret message has been saved"
